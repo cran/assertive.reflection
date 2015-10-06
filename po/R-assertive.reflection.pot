@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: assertive.reflection 0.0-1\n"
+"Report-Msgid-Bugs-To: https://bitbucket.org/richierocks/assertive.reflection\n"
+"POT-Creation-Date: 2015-08-30 09:37\n"
+"PO-Revision-Date: 2015-09-02 14:22+0300\n"
+"Last-Translator: Richard Cotton <richierocks@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+msgid "%s are not all on the operating system path."
+msgstr ""
+
+msgid "%s are all not on the operating system path."
+msgstr ""
+
+msgid "R is not 32 bit."
+msgstr ""
+
+msgid "R is not 64 bit."
+msgstr ""
+
+msgid "This version of R is %s but the current version is %s."
+msgstr ""
+
+msgid "%s is out of date.  The installed version is %s but the latest %s version is %s."
+msgstr ""
+
+msgid "R has been compiled without support for locales."
+msgstr ""
+
+msgid "The locale convention for a (%s) decimal point has not been defined."
+msgstr ""
+
+msgid "The locale convention is to use a '%s' for a (%s) decimal point."
+msgstr ""
+
+msgid "You are running the server version of RStudio."
+msgstr ""
+
+msgid "You are running the desktop version of RStudio."
+msgstr ""
+
+msgid "You are using an old version of RStudio, which does not tell you version information."
+msgstr ""
+
+msgid "The operating system is not %s. R reports it as: Sys.info()['sysname'] = %s, .Platform$OS = %s."
+msgstr ""
+
+msgid "R's build type is %s, not %s."
+msgstr ""
+
+msgid "R does not have %s capability."
+msgstr ""
+
+msgid "%s capability is not declared for versions of R before %s."
+msgstr ""
+
+msgid        "R cannot find the %s tool."
+msgid_plural "R cannot find the %s tools."
+msgstr[0]    ""
+msgstr[1]    ""
