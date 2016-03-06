@@ -1,8 +1,6 @@
 library(testthat)
-library(devtools)
+library(assertive.base)
 library(assertive.reflection)
 
-with_envvar(
-  c(LANG = "en_US"),
-  test_check("assertive.reflection")
-)
+test_check("assertive.reflection")
+

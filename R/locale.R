@@ -7,7 +7,9 @@
 #' otherwise, a list.
 #' @param ... Name-value pairs of locale categories to set.
 #' @param l A list, as an alternative method of passing local categories to set.
-#' @return A named list or vector giving the system locale names.
+#' @return A named list or vector giving the system locale names. 
+#' \code{sys_set_locale} invisibly returns the locale settings *before* making 
+#' changes (like \code{setwd} and \code{options} do).
 #' @examples
 #' (current_locale <- sys_get_locale())
 #' \dontrun{
@@ -53,6 +55,7 @@ sys_get_locale <- function(simplify = FALSE)
 #' @export
 sys_set_locale <- function(..., l = list())
 {
+  old_locale <- sys_get_locale()
   values <- merge_dots_with_list(..., l = l)
   categories <- names(values)
   categories <- match.arg(
@@ -65,6 +68,7 @@ sys_set_locale <- function(..., l = list())
   {
     Sys.setlocale(categories[i], values[[i]])
   }
+  invisible(old_locale)
 }
 
 #' Allowed locale categories.

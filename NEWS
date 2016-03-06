@@ -1,1 +1,4 @@
+0.0-2 Added r_can_find_java.
+      Fixed is_rstudio_desktop, is_rstudio_server.
+      Dropped devtools suggestion.
 0.0-1 Content extracted from assertive 0.3-0, and tidied.

@@ -24,8 +24,8 @@ test_that("test.is_revo_r.any_os.returns_true_if_ide_is_revo_r", {
 
 test_that("test.is_rstudio.any_os.returns_true_if_ide_is_rstudio", 
 {
-  gui <- .Platform$GUI
-  expected <- !is.null(gui) && gui == "RStudio"
+  env <- Sys.getenv("RSTUDIO", "0")
+  expected <- env == "1"
   actual <- is_rstudio()
   expect_equal(strip_attributes(actual), expected)
   if (!actual) {
@@ -42,7 +42,7 @@ test_that(
     {
       expect_false(strip_attributes(actual))
       expect_equal(cause(actual), noquote("You are not running RStudio."))
-    } else
+    } else if("tools:rstudio" %in% search())
     {
       e <- as.environment("tools:rstudio")
       if(!".rs.api.versionInfo" %in% ls(e, all.names = TRUE))
@@ -55,7 +55,7 @@ test_that(
       } else
       {
         info <- e$.rs.api.versionInfo()
-        expect_equal(strip_attributes(actual), info)
+        expect_equal(strip_attributes(actual), info$mode == "desktop")
         if(!actual)
         {
           expect_equal(
@@ -64,6 +64,13 @@ test_that(
           )
         }
       }
+    } else
+    {
+      expect_equal(strip_attributes(actual), NA)
+      expect_equal(
+        cause(actual), 
+        noquote("'tools:rstudio' is not loaded, so the RStudio API is not available.")
+      )
     }
   }
 )
@@ -77,7 +84,7 @@ test_that(
     {
       expect_false(strip_attributes(actual))
       expect_equal(cause(actual), noquote("You are not running RStudio."))
-    } else
+    } else if("tools:rstudio" %in% search())
     {
       e <- as.environment("tools:rstudio")
       if(!".rs.api.versionInfo" %in% ls(e, all.names = TRUE))
@@ -90,7 +97,7 @@ test_that(
       } else
       {
         info <- e$.rs.api.versionInfo()
-        expect_equal(strip_attributes(actual), info)
+        expect_equal(strip_attributes(actual), info$mode == "server")
         if(!actual)
         {
           expect_equal(
@@ -99,6 +106,13 @@ test_that(
           )
         }
       }
+    } else
+    {
+      expect_equal(strip_attributes(actual), NA)
+      expect_equal(
+        cause(actual), 
+        noquote("'tools:rstudio' is not loaded, so the RStudio API is not available.")
+      )
     }
   }
 )

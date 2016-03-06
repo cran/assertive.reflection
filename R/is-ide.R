@@ -32,8 +32,12 @@ is_revo_r <- function()
 #' @export
 is_rstudio <- function()
 {
-  gui <- .Platform$GUI
-  if(is.null(gui) || gui != "RStudio")
+  # Can also check 
+  # gui <- .Platform$GUI
+  # if(is.null(gui) || gui != "RStudio")
+  # but this does not work when called from .Rprofile.site
+  env <- Sys.getenv("RSTUDIO", "0")
+  if(env != "1")
   {
     return(false("You are not running RStudio."))
   }
@@ -110,7 +114,7 @@ is_rstudio_desktop <- function()
     return(false(cause(ok)))
   }
   info <- rstudio_version_info()
-  if(is.na(info))
+  if(!is.list(info) && is.na(info)) # very old RStudio
   {
     return(info)
   }
@@ -129,7 +133,7 @@ is_rstudio_server <- function()
     return(false(cause(ok)))
   }
   info <- rstudio_version_info()
-  if(is.na(info))
+  if(!is.list(info) && is.na(info)) # very old RStudio
   {
     return(info)
   }
@@ -145,7 +149,18 @@ is_rstudio_server <- function()
 rstudio_version_info <- function()
 {
   assert_is_rstudio()
-  e <- as.environment("tools:rstudio")
+  tools_rstudio <- "tools:rstudio"
+  if(!tools_rstudio %in% search())
+  {
+    return(
+      na(
+        gettext(
+          "'tools:rstudio' is not loaded, so the RStudio API is not available."
+        )
+      )
+    )
+  }
+  e <- as.environment(tools_rstudio)
   if(!".rs.api.versionInfo" %in% ls(e, all.names = TRUE))
   {
     return(

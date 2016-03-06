@@ -1,8 +1,8 @@
 #' @rdname r_can_find_tools
 #' @export
-assert_r_can_find_tools <- function(severity = getOption("assertive.severity", "stop"))
+assert_r_can_find_tools <- function(tools, severity = getOption("assertive.severity", "stop"))
 {
-  assert_engine(r_can_find_tools, severity = severity)
+  assert_engine(r_can_find_tools, tools = tools, severity = severity)
 }
 
 #' @rdname r_can_find_tools
@@ -17,6 +17,14 @@ assert_r_can_compile_code <- function(severity = getOption("assertive.severity",
 assert_r_can_build_translations <- function(severity = getOption("assertive.severity", "stop"))
 {
   assert_engine(r_can_build_translations, severity = severity)
+}
+
+#' @rdname r_can_find_tools
+#' @export
+assert_r_can_find_java <- function(java_type = c("same_as_r", "any", "64bit", "32bit"), severity = getOption("assertive.severity", "stop"))
+{
+  java_type <- match.arg(java_type)
+  assert_engine(r_can_find_java, java_type = java_type, severity = severity)
 }
 
 #' @rdname r_has_jpeg_capability

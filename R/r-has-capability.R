@@ -2,6 +2,8 @@
 #' 
 #' Checks to see if R can see command line tools.
 #' @param tools A character vector of tools to look for.
+#' @param java_type A string denoting the type of Java to look for (either 
+#' 32 or 64 bit).
 #' @param severity How severe should the consequences of the assertion be?  
 #' Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.
 #' @return The \code{is_*} functions return \code{TRUE} if the input is 
@@ -17,9 +19,13 @@
 #' r_can_find_tools(c("latex", "pdflatex"))
 #' r_can_compile_code()
 #' r_can_build_translations()
-#' assertive.base::dont_stop(assert_r_can_find_tools(c("latex", "pdflatex")))
-#' assertive.base::dont_stop(assert_r_can_compile_code())
-#' assertive.base::dont_stop(r_can_build_translations())
+#' r_can_find_java()
+#' assertive.base::dont_stop({
+#'   assert_r_can_find_tools(c("latex", "pdflatex"))
+#'   assert_r_can_compile_code()
+#'   assert_r_can_build_translations()
+#'   assert_r_can_find_java("64bit")
+#' })
 #' @export
 r_can_find_tools <- function(tools)
 {
@@ -53,6 +59,49 @@ r_can_compile_code <- function()
 r_can_build_translations <- function()
 {
   r_can_find_tools(c("gettext", "msgfmt"))
+}
+
+#' @rdname r_can_find_tools
+#' @export
+r_can_find_java <- function(java_type = c("same_as_r", "any", "64bit", "32bit"))
+{
+  java_type <- match.arg(java_type)
+  if(!(ok <- r_can_find_tools("java")))
+  {
+    return(ok) 
+  }
+  if(java_type == "any")
+  {
+    return(TRUE)
+  }
+  if(java_type == "same_as_r")
+  {
+    java_type <- if(is_64_bit())
+    {
+      "64bit"
+    } else
+    {
+      "32bit"
+    }
+  }
+  bit_spec <- switch(
+    java_type,
+    "64bit" = "-d64",
+    "32bit" = "-d32"
+  )
+  cmd <- paste("java -version", bit_spec)
+  res <- suppressWarnings(system(cmd, intern = TRUE))
+  status <- attr(res, "status")
+  if(!is.null(status) && status != 0)
+  {
+    return(
+      false(
+        "The %s bit version of Java is not available.", 
+        substring(java_type, 1, 2)
+      )
+    )
+  }
+  TRUE
 }
 
 #' Does R have a capability?

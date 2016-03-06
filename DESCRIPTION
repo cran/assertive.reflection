@@ -1,8 +1,8 @@
 Package: assertive.reflection
 Type: Package
 Title: Assertions for Checking the State of R
-Version: 0.0-1
-Date: 2015-10-06
+Version: 0.0-2
+Date: 2016-03-04
 Author: Richard Cotton [aut, cre]
 Maintainer: Richard Cotton <richierocks@gmail.com>
 Authors@R: person("Richard", "Cotton", role = c("aut", "cre"), email =
@@ -16,8 +16,8 @@ URL: https://bitbucket.org/richierocks/assertive.reflection
 BugReports:
         https://bitbucket.org/richierocks/assertive.reflection/issues
 Depends: R (>= 3.0.0)
-Imports: assertive.base (>= 0.0-2), utils
-Suggests: testthat, devtools
+Imports: assertive.base (>= 0.0-3), utils
+Suggests: testthat
 License: GPL (>= 3)
 LazyLoad: yes
 LazyData: yes
@@ -33,7 +33,8 @@ Collate: 'imports.R' 'assert-is-32-64-bit.R' 'assert-is-current.R'
         'is-32-64-bit.R' 'is-current.R' 'is-decimal-point.R' 'is-ide.R'
         'is-on-os-path.R' 'is-os.R' 'is-r-mode.R' 'is-r-version.R'
         'locale.R' 'r-has-capability.R'
+RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2015-10-06 08:13:06 UTC; rjc2003
+Packaged: 2016-03-04 11:19:54 UTC; richie
 Repository: CRAN
-Date/Publication: 2015-10-06 14:04:14
+Date/Publication: 2016-03-06 09:18:30
