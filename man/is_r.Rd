@@ -9,6 +9,7 @@
 \alias{assert_is_r_patched}
 \alias{assert_is_r_release}
 \alias{assert_is_r_release_candidate}
+\alias{assert_is_r_revised}
 \alias{assert_is_r_stable}
 \alias{assert_is_revo_r}
 \alias{assert_is_rstudio}
@@ -22,6 +23,7 @@
 \alias{is_r_patched}
 \alias{is_r_release}
 \alias{is_r_release_candidate}
+\alias{is_r_revised}
 \alias{is_r_stable}
 \alias{is_revo_r}
 \alias{is_rstudio}
@@ -52,6 +54,8 @@ assert_is_r_release_candidate(severity = getOption("assertive.severity",
 
 assert_is_r_release(severity = getOption("assertive.severity", "stop"))
 
+assert_is_r_revised(severity = getOption("assertive.severity", "stop"))
+
 assert_is_r_stable(severity = getOption("assertive.severity", "stop"))
 
 is_architect()
@@ -74,6 +78,8 @@ is_r_release_candidate()
 
 is_r_release()
 
+is_r_revised()
+
 is_r_stable()
 }
 \arguments{
@@ -82,8 +88,8 @@ Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.}
 }
 \value{
 \code{is_r} wraps \code{is.R}, providing more 
-information on failure.  \code{is_r_stable}, \code{is_r_patched} and
-\code{is_r_devel} tell you what type of R build you are 
+information on failure.  \code{is_r_stable}, \code{is_r_patched},
+\code{is_r_devel}, etc., tell you what type of R build you are 
 running.  \code{is_architect}, \code{is_rstudio} and \code{is_revo_r} tell
 you if you are running Architect/StatET, RStudio, or Revolution Analytics'
 Revolution R build.  \code{is_slave_r} tells you if you are running a slave
@@ -98,6 +104,7 @@ Checks to see what type of R you are running.
 \examples{
 # If this is FALSE, you really need to ditch that old copy of S-PLUS
 is_r()
+assertive.base::dont_stop(assert_is_r())
 # Release, patched, devel, etc.
 is_r_release()
 is_r_patched()
@@ -105,6 +112,7 @@ is_r_devel()
 is_r_alpha()
 is_r_beta()
 is_r_release_candidate()
+is_r_revised()
 switch(
   version$status,
   Patched                        = assert_is_r_patched(),
@@ -112,13 +120,13 @@ switch(
   alpha                          = assert_is_r_alpha(),
   beta                           = assert_is_r_beta(),
   RC                             = assert_is_r_release_candidate(),
+  Revised                        = assert_is_r_revised(),
   assert_is_r_release()
 )
 # IDE
 is_architect()
 is_revo_r()
 is_rstudio()
-assertive.base::dont_stop(assert_is_r())
 }
 \references{
 \url{http://www.revolutionanalytics.com/revolution-r-open}

@@ -57,7 +57,7 @@ is_current_r <- function(cran = getOption("repos", c(CRAN = "http://cran.r-proje
 #' \donttest{
 #' # This test is marked "dont-test" since it involves a connection to 
 #' # repositories which is potentially long running.
-#' is_package_current("assertive")
+#' is_package_current("assertive.reflection")
 #' }
 #' @importFrom utils installed.packages
 #' @importFrom utils old.packages
@@ -72,8 +72,28 @@ is_package_current <- function(x, lib.loc = .libPaths(),
   # different versions in multiple local libraries?
   
   x <- coerce_to(use_first(x), "character", .xname)
-  ip <- installed.packages()[x, , drop = FALSE]
-  op <- old.packages(instPkgs = ip)
+  ip <- installed.packages(lib.loc = lib.loc)
+  requestedPkgIsInstalled <- x %in% rownames(ip)
+  if(!all(requestedPkgIsInstalled))
+  {
+    stop(
+      "The following packages are not installed and cannot be checked: ", 
+      toString(x[!requestedPkgIsInstalled])
+    )
+  }
+  # Prevent "trying to use CRAN without setting a mirror" in contrib.url
+  if ("@CRAN@" %in% repos)
+  {
+    # It should only be the CRAN repo assigned the dummy value "@CRAN@"
+    # If users have assigned it to other repos, then this next line is silly,
+    # but that should be so rare as to not need worrying about.
+    repos[repos == "@CRAN@"] <- "https://cloud.r-project.org"
+  }
+  op <- old.packages(
+    lib.loc = lib.loc,
+    repos = repos,
+    type = type,
+    instPkgs = ip[x, , drop = FALSE])
   if(!is.null(op))
   {
     return(

@@ -66,6 +66,17 @@ is_r_release <- function()
 
 #' @rdname is_r
 #' @export
+is_r_revised <- function()
+{
+  if(version$status != "Revised")
+  {
+    return(not_this_build("revised"))
+  }
+  TRUE
+}
+
+#' @rdname is_r
+#' @export
 is_r_stable <- function()
 {
   .Deprecated("is_r_release")
@@ -106,6 +117,7 @@ clean_status_string <- function(status = version$status)
     alpha                          = "alpha",
     beta                           = "beta",
     RC                             = "release candidate",
+    Revised                        = "revised",
     "release"
   )
 }

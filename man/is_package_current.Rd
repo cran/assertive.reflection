@@ -38,7 +38,7 @@ Checks to see if the installed version of a package is current.
 \donttest{
 # This test is marked "dont-test" since it involves a connection to 
 # repositories which is potentially long running.
-is_package_current("assertive")
+is_package_current("assertive.reflection")
 }
 }
 \seealso{
