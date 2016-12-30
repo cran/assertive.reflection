@@ -14,7 +14,8 @@
 #' cluster).
 #' The \code{assert_*} functions return nothing but throw an error if 
 #' the corresponding \code{is_*} function returns \code{FALSE}.
-#' @seealso \code{\link[base]{is.R}}, \code{\link[base]{version}}.
+#' @seealso \code{\link[base]{is.R}}, \code{\link[base]{version}}, 
+#' \code{\link[rstudioapi]{isAvailable}}.
 #' @references \url{http://www.revolutionanalytics.com/revolution-r-open}
 #' @examples
 #' # If this is FALSE, you really need to ditch that old copy of S-PLUS
@@ -40,8 +41,11 @@
 #' )
 #' # IDE
 #' is_architect()
-#' is_revo_r()
+#' is_emacs()
+#' is_visual_studio()
 #' is_rstudio()
+#' # Custom R distribution
+#' is_revo_r()
 #' @export
 is_r <- function()
 {

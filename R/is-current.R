@@ -41,7 +41,8 @@ is_current_r <- function(cran = getOption("repos", c(CRAN = "http://cran.r-proje
 #' Is the installed version of a package current?
 #' 
 #' Checks to see if the installed version of a package is current.
-#' @param x A string giving a package name.
+#' @param x A character vector of package names, or \code{NULL} to check all
+#' installed packages.
 #' @param lib.loc A character vector of paths to local package libraries.
 #' @param repos A character vector of URLs to repositories to check for new
 #' package versions.
@@ -49,7 +50,10 @@ is_current_r <- function(cran = getOption("repos", c(CRAN = "http://cran.r-proje
 #' @param severity How severe should the consequences of the assertion be?  
 #' Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.
 #' @param .xname Not intended to be used directly.
-#' @return The \code{is_*} functions return \code{TRUE} or \code{FALSE}.
+#' @param ... Passed to and from deprecated \code{assert_is_current_package}.
+#' @return \code{is_package_current}  returns a logical vector that is 
+#' \code{TRUE} whenever the package version matches the one in the repository.
+#' \code{NA} is returned for non-installed packages.
 #' The \code{assert_*} functions throw an error in the event of failure.
 #' @seealso \code{\link[utils]{old.packages}}, on which this is based, which
 #' has advanced usage features.
@@ -57,30 +61,29 @@ is_current_r <- function(cran = getOption("repos", c(CRAN = "http://cran.r-proje
 #' \donttest{
 #' # This test is marked "dont-test" since it involves a connection to 
 #' # repositories which is potentially long running.
-#' is_package_current("assertive.reflection")
+#' is_package_current(c("assertive.base", "assertive.reflection", "NONEXISTENTPKG"))
 #' }
 #' @importFrom utils installed.packages
 #' @importFrom utils old.packages
 #' @importFrom assertive.base coerce_to
 #' @importFrom assertive.base use_first
 #' @export
-is_package_current <- function(x, lib.loc = .libPaths(), 
+is_package_current <- function(x = NULL, lib.loc = .libPaths(), 
   repos = getOption("repos"), type = getOption("pkgType"), 
   .xname = get_name_in_parent(x))
 {
-  # TODO: what is the behaviour when the package is installed with 
-  # different versions in multiple local libraries?
-  
-  x <- coerce_to(use_first(x), "character", .xname)
   ip <- installed.packages(lib.loc = lib.loc)
-  requestedPkgIsInstalled <- x %in% rownames(ip)
-  if(!all(requestedPkgIsInstalled))
+  x <- if(is.null(x))
   {
-    stop(
-      "The following packages are not installed and cannot be checked: ", 
-      toString(x[!requestedPkgIsInstalled])
-    )
+    rownames(ip)
+  } else
+  {
+    coerce_to(x, "character", .xname)
   }
+  ok <- rep.int(TRUE, length(x))
+  names(ok) <- x
+  requested_pkg_is_installed <- x %in% rownames(ip)
+  ok[!requested_pkg_is_installed] <- NA
   # Prevent "trying to use CRAN without setting a mirror" in contrib.url
   if ("@CRAN@" %in% repos)
   {
@@ -93,20 +96,17 @@ is_package_current <- function(x, lib.loc = .libPaths(),
     lib.loc = lib.loc,
     repos = repos,
     type = type,
-    instPkgs = ip[x, , drop = FALSE])
+    instPkgs = ip[x[requested_pkg_is_installed], , drop = FALSE])
   if(!is.null(op))
   {
-    return(
-      false(
-        gettext("%s is out of date.  The installed version is %s but the latest %s version is %s."),
-        x,
-        as.character(op[, "Installed"]),
-        type,
-        as.character(op[, "ReposVer"])
-      )
-    )
+    ok[rownames(op)] <- FALSE
   }
-  TRUE
+  false_msg <- sprintf(
+    "installed: %s; current: %s", 
+    as.character(op[, "Installed"]),
+    as.character(op[, "ReposVer"])
+  )
+  set_cause(ok, false_value = false_msg, missing_value = "not installed")
 }
 
 

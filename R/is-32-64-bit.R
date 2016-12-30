@@ -10,20 +10,22 @@ is_64_bit_os <- function()
 #' @export
 is_32_bit <- function()
 {
-  if(.Machine$sizeof.pointer != 4)
-  {
-    return(false(gettext("R is not 32 bit.")))
-  }
-  TRUE
+  is_xx_bit(32)
 }
 
 #' @rdname is_windows
 #' @export
 is_64_bit <- function()
 {
-  if(.Machine$sizeof.pointer != 8)
+  is_xx_bit(64)
+}
+
+is_xx_bit <- function(n)
+{
+  bits <- 8 * .Machine$sizeof.pointer
+  if(bits != n)
   {
-    return(false(gettext("R is not 64 bit.")))
+    return(false(gettextf("R is %d bit.", bits)))
   }
   TRUE
 }

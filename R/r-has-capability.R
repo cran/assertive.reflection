@@ -62,6 +62,7 @@ r_can_build_translations <- function()
 }
 
 #' @rdname r_can_find_tools
+#' @importFrom assertive.base na
 #' @export
 r_can_find_java <- function(java_type = c("same_as_r", "any", "64bit", "32bit"))
 {
@@ -89,8 +90,15 @@ r_can_find_java <- function(java_type = c("same_as_r", "any", "64bit", "32bit"))
     "64bit" = "-d64",
     "32bit" = "-d32"
   )
-  cmd <- paste("java -version", bit_spec)
-  res <- suppressWarnings(system(cmd, intern = TRUE))
+  res <- suppressWarnings(
+    system2(
+      "java", c("-version", bit_spec), stdout = TRUE, stderr = TRUE
+    )
+  )
+  if(length(res) == 0L)
+  {
+    return(na("R can find Java, but no Java SDK was found, so cannot check the version."))
+  }
   status <- attr(res, "status")
   if(!is.null(status) && status != 0)
   {

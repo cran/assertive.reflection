@@ -5,13 +5,15 @@
 \alias{sys_set_locale}
 \title{Get or set the system locale}
 \usage{
-sys_get_locale(simplify = FALSE)
+sys_get_locale(simplify = FALSE, remove_empty_categories = TRUE)
 
 sys_set_locale(..., l = list())
 }
 \arguments{
-\item{simplify}{If \code{TRUE}, the locale settings are returned as a vector,
-otherwise, a list.}
+\item{simplify}{If \code{TRUE}, the locale settings are returned as a 
+character vector, otherwise a list.}
+
+\item{remove_empty_categories}{if \code{TRUE}, don't include empty categories.}
 
 \item{...}{Name-value pairs of locale categories to set.}
 
@@ -28,11 +30,15 @@ setting the system locale.
 }
 \examples{
 (current_locale <- sys_get_locale())
+
+# Output simplified to character vector
+sys_get_locale(simplify = TRUE)
 \dontrun{
-english <- if(is_windows()) "English" 
-  else if(is_mac()) "en_GB" 
-  else if(is_linux()) "en_GB.utf8" 
-  else "en"
+# Not run since it (temporarily) affects system settings
+english <- if(is_windows()) "English.United_Kingdom" else 
+  if(is_mac()) "en_GB" else 
+  if(is_linux()) "en_GB.utf8" else
+  "en"
 sys_set_locale(LC_MONETARY = english)
 sys_get_locale()
 sys_set_locale(l = current_locale)  #restore everything

@@ -121,6 +121,13 @@ is_osx_el_capitan <- function()
 
 #' @rdname is_windows
 #' @export
+is_macos_sierra <- function()
+{
+  is_osx_version("Sierra")
+}
+
+#' @rdname is_windows
+#' @export
 is_solaris <- function()
 {
   if(Sys.info()["sysname"] != "SunOS")
@@ -175,30 +182,35 @@ is_unix <- function()
 #' is_solaris()
 #' if(is_windows())
 #' {
-#'   is_windows_vista()
-#'   is_windows_7()
-#'   is_windows_8()
-#'   is_windows_8.1()
-#'   is_windows_10()
-#'   is_windows_server_2008()
-#'   is_windows_server_2008_r2()
-#'   is_windows_server_2012()
-#'   is_windows_server_2012_r2()
+#'   assertive.base::dont_stop({
+#'     assert_is_windows_vista()
+#'     assert_is_windows_7()
+#'     assert_is_windows_8()
+#'     assert_is_windows_8.1()
+#'     assert_is_windows_10()
+#'     assert_is_windows_server_2008()
+#'     assert_is_windows_server_2008_r2()
+#'     assert_is_windows_server_2012()
+#'     assert_is_windows_server_2012_r2()
+#'   })
 #' }
 #' if(is_osx()) # is_mac is a synonym
 #' {
-#'   is_osx_cheetah()
-#'   is_osx_puma()
-#'   is_osx_jaguar()
-#'   is_osx_panther()
-#'   is_osx_tiger()
-#'   is_osx_leopard()
-#'   is_osx_snow_leopard()
-#'   is_osx_lion()
-#'   is_osx_mountain_lion()
-#'   is_osx_mavericks()
-#'   is_osx_yosemite()
-#'   is_osx_el_capitan()
+#'   assertive.base::dont_stop({
+#'     assert_is_osx_cheetah()
+#'     assert_is_osx_puma()
+#'     assert_is_osx_jaguar()
+#'     assert_is_osx_panther()
+#'     assert_is_osx_tiger()
+#'     assert_is_osx_leopard()
+#'     assert_is_osx_snow_leopard()
+#'     assert_is_osx_lion()
+#'     assert_is_osx_mountain_lion()
+#'     assert_is_osx_mavericks()
+#'     assert_is_osx_yosemite()
+#'     assert_is_osx_el_capitan()
+#'     assert_is_macos_sierra() # note the change from OSX to macOS
+#'   })
 #' }
 #' is_32_bit()
 #' is_64_bit()
@@ -336,31 +348,32 @@ is_osx_version <- function(version)
   }
   mac_version_text <- system("sw_vers -productVersion", intern = TRUE)
   mac_version <- as.numeric_version(mac_version_text)
+  # Major version is always 10, at least for now.
   minor_version <- unlist(mac_version)[2]
-  os_name <- switch(
-    as.character(minor_version),
-    "0" = "Cheetah",
-    "1" = "Puma",
-    "2" = "Jaguar",
-    "3" = "Panther",
-    "4" = "Tiger",
-    "5" = "Leopard",
-    "6" = "Snow Leopard",
-    "7" = "Lion",
-    "8" = "Mountain Lion",
-    "9" = "Mavericks",
-    "10" = "Yosemite",
-    "11" = "El Capitan"
-  )
-  if(version != os_name)
+  actual_os_details <- apple_os_data[apple_os_data$minor_version == minor_version, ]
+  expected_os_details <- apple_os_data[apple_os_data$version_name == version, ]
+  if(version != actual_os_details$version_name)
   {
     return(
       false(
-        gettext("The operating system is not OS X %s. R reports it as: OS X %s."), 
-        version,
-        os_name
+        gettext("The operating system is not %s %s. R reports it as: %s %s."), 
+        expected_os_details$os_name,
+        expected_os_details$version_name, 
+        actual_os_details$os_name,
+        actual_os_details$version_name
       )
     )
   }
   TRUE
 }
+
+apple_os_data <- data.frame(
+  minor_version = 0:12,
+  os_name = rep.int(c("OS X", "macOS"), c(12, 1)),
+  version_name = c(
+    "Cheetah", "Puma", "Jaguar", "Panther", "Tiger", 
+    "Leopard", "Snow Leopard", "Lion", "Mountain Lion", "Mavericks", 
+    "Yosemite", "El Capitan", "Sierra"
+  ),
+  stringsAsFactors = FALSE
+)

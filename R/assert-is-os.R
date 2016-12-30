@@ -109,6 +109,13 @@ assert_is_osx_el_capitan <- function(severity = getOption("assertive.severity", 
 
 #' @rdname is_windows
 #' @export
+assert_is_macos_sierra <- function(severity = getOption("assertive.severity", "stop"))
+{
+  assert_engine(is_macos_sierra, severity = severity)
+}
+
+#' @rdname is_windows
+#' @export
 assert_is_solaris <- function(severity = getOption("assertive.severity", "stop"))
 {
   assert_engine(is_solaris, severity = severity)

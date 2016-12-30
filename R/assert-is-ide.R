@@ -7,6 +7,13 @@ assert_is_architect <- function(severity = getOption("assertive.severity", "stop
 
 #' @rdname is_r
 #' @export
+assert_is_emacs <- function(severity = getOption("assertive.severity", "stop"))
+{                                                         
+  assert_engine(is_emacs, severity = severity)        
+}
+
+#' @rdname is_r
+#' @export
 assert_is_revo_r <- function(severity = getOption("assertive.severity", "stop"))
 {                                                         
   assert_engine(is_revo_r, severity = severity)        
@@ -38,5 +45,12 @@ assert_is_rstudio_desktop <- function(severity = getOption("assertive.severity",
 assert_is_rstudio_server <- function(severity = getOption("assertive.severity", "stop"))
 {                                                         
   assert_engine(is_rstudio_server, severity = severity)        
+}
+
+#' @rdname is_r
+#' @export
+assert_is_visual_studio <- function(severity = getOption("assertive.severity", "stop"))
+{                                                         
+  assert_engine(is_visual_studio, severity = severity)        
 }
 

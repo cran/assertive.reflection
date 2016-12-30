@@ -3,8 +3,9 @@
 #' Wrappers to \code{Sys.getlocale} and \code{Sys.setlocale} for getting and
 #' setting the system locale.
 #'
-#' @param simplify If \code{TRUE}, the locale settings are returned as a vector,
-#' otherwise, a list.
+#' @param simplify If \code{TRUE}, the locale settings are returned as a 
+#' character vector, otherwise a list.
+#' @param remove_empty_categories if \code{TRUE}, don't include empty categories.
 #' @param ... Name-value pairs of locale categories to set.
 #' @param l A list, as an alternative method of passing local categories to set.
 #' @return A named list or vector giving the system locale names. 
@@ -12,42 +13,41 @@
 #' changes (like \code{setwd} and \code{options} do).
 #' @examples
 #' (current_locale <- sys_get_locale())
+#' 
+#' # Output simplified to character vector
+#' sys_get_locale(simplify = TRUE)
 #' \dontrun{
-#' english <- if(is_windows()) "English" 
-#'   else if(is_mac()) "en_GB" 
-#'   else if(is_linux()) "en_GB.utf8" 
-#'   else "en"
+#' # Not run since it (temporarily) affects system settings
+#' english <- if(is_windows()) "English.United_Kingdom" else 
+#'   if(is_mac()) "en_GB" else 
+#'   if(is_linux()) "en_GB.utf8" else
+#'   "en"
 #' sys_set_locale(LC_MONETARY = english)
 #' sys_get_locale()
 #' sys_set_locale(l = current_locale)  #restore everything
 #' }
 #' @seealso \code{\link[base]{Sys.getlocale}}.
 #' @export
-sys_get_locale <- function(simplify = FALSE)
+sys_get_locale <- function(simplify = FALSE, remove_empty_categories = TRUE)
 {
-  locale <- Sys.getlocale()
-  if(locale == "C")
-  {
-    categories <- locale_categories(FALSE)
-    values <- lapply(categories, function(x) "C")
-  } else
-  {
-    splitter <- if(is_windows() || is_linux()) ";" else "/"
-    locale <- strsplit(locale, splitter)[[1]]
-    locale <- strsplit(locale, "=")
-    categories <- vapply(
-      locale,
-      function(x) x[1],
-      character(1)
-    )
-    values <- lapply(
-      locale,
-      function(x) x[2]
-    )
-  }
+  categories <- c(
+    "LC_COLLATE", "LC_CTYPE", "LC_MONETARY", "LC_NUMERIC", 
+    "LC_TIME", "LC_MESSAGES", "LC_PAPER", "LC_MEASUREMENT"
+  )
+  names(categories) <- categories
   
-  names(values) <- categories
-  if(simplify) unlist(values) else values
+  locale <- lapply(categories, Sys.getlocale)
+  if(remove_empty_categories)
+  {
+    locale <- locale[nzchar(locale)]
+  }
+  if(simplify) 
+  {
+    unlist(locale)
+  } else 
+  {
+    locale
+  }
 }
 
 #' @rdname sys_get_locale
@@ -79,6 +79,7 @@ sys_set_locale <- function(..., l = list())
 #' @param include_unix If \code{TRUE}, the extra unix-only values are included.
 #' @return A character vector of locale categories.
 #' @seealso \code{\link{sys_get_locale}}.
+#' @noRd
 locale_categories <- function(include_all = TRUE, include_unix = is_unix())
 {
   allowed_categories <- c(

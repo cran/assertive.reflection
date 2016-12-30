@@ -11,6 +11,18 @@ is_architect <- function()
   TRUE
 }
 
+#' @rdname is_r
+#' @export
+is_emacs <- function()
+{
+  env <- Sys.getenv("EMACS", NA)
+  if(is.na(env))
+  {
+    return(false("You are not running emacs."))
+  }
+  TRUE
+}
+
 # This is to avoid a NOTE by R CMD check.  See 
 # http://stackoverflow.com/q/9439256/134830 and
 # http://stackoverflow.com/q/8096313/134830
@@ -122,6 +134,7 @@ is_rstudio_desktop <- function()
   {
     return(false(gettext("You are running the server version of RStudio.")))
   }
+  TRUE
 }
 
 #' @rdname is_rstudio_desktop
@@ -141,6 +154,7 @@ is_rstudio_server <- function()
   {
     return(false(gettext("You are running the desktop version of RStudio.")))
   }
+  TRUE
 }
 
 #' Get RStudio's version information
@@ -172,5 +186,17 @@ rstudio_version_info <- function()
     )
   }
   e$.rs.api.versionInfo()
+}
+
+#' @rdname is_r
+#' @export
+is_visual_studio <- function()
+{
+  env <- Sys.getenv("VisualStudioVersion", NA)
+  if(is.na(env))
+  {
+    return(false("You are not running Visual Studio."))
+  }
+  TRUE
 }
 

@@ -1,4 +1,3 @@
-# TODO: tests for is_rstudio_current/desktop/server
 
 test_that("test.is_architect.some_ide.returns_true_if_ide_is_architect",
 {
@@ -10,6 +9,17 @@ test_that("test.is_architect.some_ide.returns_true_if_ide_is_architect",
   if (!actual) {
     expect_equal(cause(actual), noquote("You are not running Architect/StatET."))
   }  
+})
+
+test_that("test.is_emacs.any_os.returns_true_if_ide_is_emacs", 
+{
+  env <- Sys.getenv("EMACS", NA)
+  expected <- !is.na(env)
+  actual <- is_emacs()
+  expect_equal(strip_attributes(actual), expected)
+  if (!actual) {
+    expect_equal(cause(actual), noquote("You are not running emacs."))
+  }
 })
 
 test_that("test.is_revo_r.any_os.returns_true_if_ide_is_revo_r", {
@@ -117,6 +127,17 @@ test_that(
   }
 )
 
+
+test_that("test.is_visual_studio.any_os.returns_true_if_ide_is_visual_studio", 
+{
+  env <- Sys.getenv("VisualStudioVersion", NA)
+  expected <- !is.na(env)
+  actual <- is_visual_studio()
+  expect_equal(strip_attributes(actual), expected)
+  if (!actual) {
+    expect_equal(cause(actual), noquote("You are not running Visual Studio."))
+  }
+})
 
 
 

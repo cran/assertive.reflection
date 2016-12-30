@@ -2,6 +2,7 @@
 % Please edit documentation in R/assert-is-ide.R, R/assert-is-r-mode.R, R/assert-is-r-version.R, R/is-ide.R, R/is-r-mode.R, R/is-r-version.R
 \name{assert_is_architect}
 \alias{assert_is_architect}
+\alias{assert_is_emacs}
 \alias{assert_is_r}
 \alias{assert_is_r_alpha}
 \alias{assert_is_r_beta}
@@ -15,7 +16,9 @@
 \alias{assert_is_rstudio}
 \alias{assert_is_rstudio_desktop}
 \alias{assert_is_rstudio_server}
+\alias{assert_is_visual_studio}
 \alias{is_architect}
+\alias{is_emacs}
 \alias{is_r}
 \alias{is_r_alpha}
 \alias{is_r_beta}
@@ -27,9 +30,12 @@
 \alias{is_r_stable}
 \alias{is_revo_r}
 \alias{is_rstudio}
+\alias{is_visual_studio}
 \title{Are you running R?}
 \usage{
 assert_is_architect(severity = getOption("assertive.severity", "stop"))
+
+assert_is_emacs(severity = getOption("assertive.severity", "stop"))
 
 assert_is_revo_r(severity = getOption("assertive.severity", "stop"))
 
@@ -38,6 +44,8 @@ assert_is_rstudio(severity = getOption("assertive.severity", "stop"))
 assert_is_rstudio_desktop(severity = getOption("assertive.severity", "stop"))
 
 assert_is_rstudio_server(severity = getOption("assertive.severity", "stop"))
+
+assert_is_visual_studio(severity = getOption("assertive.severity", "stop"))
 
 assert_is_r(severity = getOption("assertive.severity", "stop"))
 
@@ -60,9 +68,13 @@ assert_is_r_stable(severity = getOption("assertive.severity", "stop"))
 
 is_architect()
 
+is_emacs()
+
 is_revo_r()
 
 is_rstudio()
+
+is_visual_studio()
 
 is_r()
 
@@ -125,13 +137,17 @@ switch(
 )
 # IDE
 is_architect()
-is_revo_r()
+is_emacs()
+is_visual_studio()
 is_rstudio()
+# Custom R distribution
+is_revo_r()
 }
 \references{
 \url{http://www.revolutionanalytics.com/revolution-r-open}
 }
 \seealso{
-\code{\link[base]{is.R}}, \code{\link[base]{version}}.
+\code{\link[base]{is.R}}, \code{\link[base]{version}}, 
+\code{\link[rstudioapi]{isAvailable}}.
 }
 
