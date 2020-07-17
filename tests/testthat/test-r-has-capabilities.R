@@ -1,7 +1,13 @@
 test_that(
   "test.r_has_capabilities.returns_true_if_r_has_capabilities",
   {
-    caps <- capabilities()
+   caps <- capabilities()
+## does not support those added after 2016
+    OK <- c("jpeg", "png", "tiff", "tcltk", "X11", "aqua", "http/ftp",
+	    "sockets", "libxml", "fifo", "cledit", "iconv", "NLS",
+	    "profmem", "cairo", "ICU", "long.double", "libcurl")
+    caps <- capabilities(caps)
+    caps <- caps[intersect(names(caps), OK)]
     fns <- paste(
       "r_has", 
       sub("[/.]", "_", tolower(names(caps))), 

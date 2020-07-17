@@ -1,10 +1,10 @@
 Package: assertive.reflection
 Type: Package
 Title: Assertions for Checking the State of R
-Version: 0.0-4
+Version: 0.0-4.1
 Date: 2016-12-30
 Author: Richard Cotton [aut, cre]
-Maintainer: Richard Cotton <richierocks@gmail.com>
+Maintainer: ORPHANED
 Authors@R: person("Richard", "Cotton", role = c("aut", "cre"), email =
     "richierocks@gmail.com")
 Description: A set of predicates and assertions for checking the state and
@@ -13,8 +13,7 @@ Description: A set of predicates and assertions for checking the state and
     want to include run-time testing features in their own packages.
     End-users will usually want to use assertive directly.
 URL: https://bitbucket.org/richierocks/assertive.reflection
-BugReports:
-        https://bitbucket.org/richierocks/assertive.reflection/issues
+BugReports: https://bitbucket.org/richierocks/assertive.reflection/issues
 Depends: R (>= 3.0.0)
 Imports: assertive.base (>= 0.0-7), utils
 Suggests: testthat
@@ -35,6 +34,6 @@ Collate: 'imports.R' 'assert-is-32-64-bit.R' 'assert-is-current.R'
         'locale.R' 'r-has-capability.R'
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-12-30 17:53:49 UTC; richierocks
+Packaged: 2020-07-15 08:47:09 UTC; ripley
 Repository: CRAN
-Date/Publication: 2016-12-30 19:35:50
+Date/Publication: 2020-07-17 04:36:07 UTC

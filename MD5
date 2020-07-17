@@ -1,4 +1,4 @@
-4c69e9b310de4d5e02160310495442dc *DESCRIPTION
+d959222e6859164e0c0bc03ecb990a04 *DESCRIPTION
 1716f5ea5b309da9891b1e477aa551a1 *NAMESPACE
 6253180bb727e16a6f3b895fb9d1060f *NEWS
 0601a98a7c80382ad3fc6ae828ddc064 *R/assert-is-32-64-bit.R
@@ -44,4 +44,4 @@ c0dad18bbd6d9943bd1517043dddb6b8 *tests/testthat/test-is-on-os-path.R
 0135841256124c17f9212ca78d51d617 *tests/testthat/test-is-os.R
 0d6bbbb98f3baed5f4ea0e936ebb3cf0 *tests/testthat/test-is-r-mode.R
 374af5afd96151073521744f49451c16 *tests/testthat/test-is-r-version.R
-ccc4758ae12d94a63e5f0847cf32d26b *tests/testthat/test-r-has-capabilities.R
+7b0575d5898149642f1f5c6b3621bb49 *tests/testthat/test-r-has-capabilities.R
