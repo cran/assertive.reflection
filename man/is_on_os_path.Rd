@@ -6,11 +6,15 @@
 \alias{is_on_os_path}
 \title{Is the path on the OS path?}
 \usage{
-assert_all_are_on_os_path(x, severity = getOption("assertive.severity",
-  "stop"))
+assert_all_are_on_os_path(
+  x,
+  severity = getOption("assertive.severity", "stop")
+)
 
-assert_any_are_on_os_path(x, severity = getOption("assertive.severity",
-  "stop"))
+assert_any_are_on_os_path(
+  x,
+  severity = getOption("assertive.severity", "stop")
+)
 
 is_on_os_path(x, .xname = get_name_in_parent(x))
 }
@@ -38,4 +42,3 @@ is_on_os_path(
   c(R.home("bin"), R.home("etc"), "a nonexistent path")
 ) # probably c(TRUE, FALSE, FALSE)
 }
-

@@ -128,6 +128,34 @@ is_macos_sierra <- function()
 
 #' @rdname is_windows
 #' @export
+is_macos_high_sierra <- function()
+{
+  is_osx_version("High Sierra")
+}
+
+#' @rdname is_windows
+#' @export
+is_macos_mojave <- function()
+{
+  is_osx_version("Mojave")
+}
+
+#' @rdname is_windows
+#' @export
+is_macos_catalina <- function()
+{
+  is_osx_version("Catalina")
+}
+
+#' @rdname is_windows
+#' @export
+is_macos_big_sur <- function()
+{
+  is_osx_version("Big Sur")
+}
+
+#' @rdname is_windows
+#' @export
 is_solaris <- function()
 {
   if(Sys.info()["sysname"] != "SunOS")
@@ -244,7 +272,7 @@ is_windows_7 <- function()
 #' @export
 is_windows_8 <- function()
 {
-  is_windows_version(">= 8")
+  is_windows_version("8")
 }
 
 #' @rdname is_windows
@@ -279,7 +307,7 @@ is_windows_server_2008_r2 <- function()
 #' @export
 is_windows_server_2012 <- function()
 {
-  is_windows_version("Server >= 2012")
+  is_windows_version("Server 2012")
 }
 
 #' @rdname is_windows
@@ -287,6 +315,20 @@ is_windows_server_2012 <- function()
 is_windows_server_2012_r2 <- function()
 {
   is_windows_version("Server 2012 R2")
+}
+
+#' @rdname is_windows
+#' @export
+is_windows_server_2016 <- function()
+{
+  is_windows_version("Server 2016")
+}
+
+#' @rdname is_windows
+#' @export
+is_windows_server_2019 <- function()
+{
+  is_windows_version("Server 2019")
 }
 
 #' Failure for bad OS
@@ -321,9 +363,16 @@ is_windows_version <- function(version)
   {
     return(ok)
   }
-  windows_name_text <- utils::win.version()
+  # wmic available on Windows 2000 onwards, but for safety also allow
+  # (slower) alternative via systeminfo
+  windows_name_text <- tryCatch(
+    trimws(shell("wmic os get caption", intern = TRUE)[2]),
+    error = function(e) {
+      sub("OS Name:\\s+", "", shell('systeminfo | findstr /B /C:"OS Name"'))
+    }
+  )
   windows_version <- sub(
-    "Windows (10|Vista|7|>= 8|8.1|Server 2008|Server 2008 R2|Server >= 2012|Server >= 2012 R2).*", 
+    "Windows (10|8.1|8\\b|7|Vista|Server 2019|Server 2016|Server 2012|Server 2012 R2|Server 2008 R2|Server 2008).*", 
     "\\1",
     windows_name_text
   )
@@ -347,10 +396,12 @@ is_osx_version <- function(version)
     return(ok)
   }
   mac_version_text <- system("sw_vers -productVersion", intern = TRUE)
-  mac_version <- as.numeric_version(mac_version_text)
-  # Major version is always 10, at least for now.
-  minor_version <- unlist(mac_version)[2]
-  actual_os_details <- apple_os_data[apple_os_data$minor_version == minor_version, ]
+  mac_version <- unlist(as.numeric_version(mac_version_text))
+  major_version <- mac_version[1]
+  minor_version <- mac_version[2]
+  actual_os_details <- apple_os_data[
+    apple_os_data$major_version == major_version & apple_os_data$minor_version == minor_version, 
+  ]
   expected_os_details <- apple_os_data[apple_os_data$version_name == version, ]
   if(version != actual_os_details$version_name)
   {
@@ -368,12 +419,14 @@ is_osx_version <- function(version)
 }
 
 apple_os_data <- data.frame(
-  minor_version = 0:12,
-  os_name = rep.int(c("OS X", "macOS"), c(12, 1)),
+  major_version = rep(c(10, 11), c(16, 1)),
+  minor_version = c(0:15, 0),
+  os_name = rep.int(c("OS X", "macOS"), c(12, 5)),
   version_name = c(
     "Cheetah", "Puma", "Jaguar", "Panther", "Tiger", 
     "Leopard", "Snow Leopard", "Lion", "Mountain Lion", "Mavericks", 
-    "Yosemite", "El Capitan", "Sierra"
+    "Yosemite", "El Capitan", "Sierra", "High Sierra", "Mojave", 
+    "Catalina", "Big Sur"
   ),
   stringsAsFactors = FALSE
 )

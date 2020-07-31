@@ -2,6 +2,7 @@
 [![Is the package on CRAN?](http://www.r-pkg.org/badges/version/assertive.reflection)](http://www.r-pkg.org/pkg/assertive.reflection)
 [![SemaphoreCI Build Status](https://semaphoreci.com/api/v1/projects/c2645947-b139-47ec-8cde-409f0912df32/635147/badge.svg)](https://semaphoreci.com/richierocks/assertive-reflection)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/jb6bmar2fxbe35pa?svg=true)](https://ci.appveyor.com/project/richierocks/assertive-reflection)
+[![Research software impact](http://depsy.org/api/package/cran/assertive.reflection/badge.svg)](http://depsy.org/package/r/assertive.reflection)
 
 # assertive.reflection
 

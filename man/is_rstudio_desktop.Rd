@@ -25,4 +25,3 @@ via the constants \code{kSessionProgramModeDesktop} and
 \seealso{
 \code{\link{is_rstudio}}, \code{\link{is_rstudio_current}}
 }
-

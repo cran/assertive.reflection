@@ -1,3 +1,7 @@
+0.0-5 Added r_has_rprof_capability
+      r_has_*_capability fns return NA for older verions of R that don't declare that capability (slight breaking change).
+      Added latest is_macos_* fns.
+      Added latest is_windows_* fns.
 0.0-4 Added is_macos_sierra & fixed other is_osx_* fns.
       Made sys_get_locale more robust across different OSes.
       Added is_visual_studio, is_emacs.

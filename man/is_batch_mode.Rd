@@ -47,4 +47,3 @@ is_r_slave()
 \seealso{
 \code{\link[base]{EnvVar}} and \code{\link[base]{interactive}}.
 }
-

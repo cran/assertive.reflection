@@ -1,10 +1,10 @@
 Package: assertive.reflection
 Type: Package
 Title: Assertions for Checking the State of R
-Version: 0.0-4.1
-Date: 2016-12-30
+Version: 0.0-5
+Date: 2020-07-30
 Author: Richard Cotton [aut, cre]
-Maintainer: ORPHANED
+Maintainer: Richard Cotton <richierocks@gmail.com>
 Authors@R: person("Richard", "Cotton", role = c("aut", "cre"), email =
     "richierocks@gmail.com")
 Description: A set of predicates and assertions for checking the state and
@@ -32,8 +32,8 @@ Collate: 'imports.R' 'assert-is-32-64-bit.R' 'assert-is-current.R'
         'is-32-64-bit.R' 'is-current.R' 'is-decimal-point.R' 'is-ide.R'
         'is-on-os-path.R' 'is-os.R' 'is-r-mode.R' 'is-r-version.R'
         'locale.R' 'r-has-capability.R'
-RoxygenNote: 5.0.1
-NeedsCompilation: no
-Packaged: 2020-07-15 08:47:09 UTC; ripley
+RoxygenNote: 7.1.1
 Repository: CRAN
-Date/Publication: 2020-07-17 04:36:07 UTC
+NeedsCompilation: no
+Packaged: 2020-07-30 21:23:39 UTC; richie
+Date/Publication: 2020-07-31 01:00:14 UTC

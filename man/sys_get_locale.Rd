@@ -47,4 +47,3 @@ sys_set_locale(l = current_locale)  #restore everything
 \seealso{
 \code{\link[base]{Sys.getlocale}}.
 }
-

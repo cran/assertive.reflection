@@ -9,4 +9,3 @@ rstudio_version_info()
 \description{
 Wrapper to .rs.api.versionInfo.
 }
-

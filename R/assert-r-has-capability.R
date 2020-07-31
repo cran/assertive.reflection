@@ -120,6 +120,13 @@ assert_r_has_nls_capability <- function(severity = getOption("assertive.severity
 
 #' @rdname r_has_jpeg_capability
 #' @export
+assert_r_has_rprof_capability <- function(severity = getOption("assertive.severity", "stop"))
+{
+  assert_engine(r_has_rprof_capability, severity = severity)
+}
+
+#' @rdname r_has_jpeg_capability
+#' @export
 assert_r_has_profmem_capability <- function(severity = getOption("assertive.severity", "stop"))
 {
   assert_engine(r_has_profmem_capability, severity = severity)

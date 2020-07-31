@@ -31,4 +31,3 @@ where the string for the OS is described in \code{beginUpdateCheck} from
 \seealso{
 \code{\link{is_rstudio}}, \code{\link{is_rstudio_desktop}}
 }
-

@@ -281,6 +281,22 @@ r_has_nls_capability <- function()
 
 #' @rdname r_has_jpeg_capability
 #' @export
+r_has_rprof_capability <- function()
+{
+  if(as.package_version(version) < "4.1.0")
+  {
+    return(
+      na(not_declared_msg("Rprof" , "4.1.0"))
+    )
+  }
+  if(!capabilities("Rprof"))
+  {
+    return(false(no_capability_msg("Rprof")))
+  }
+  TRUE
+}
+#' @rdname r_has_jpeg_capability
+#' @export
 r_has_profmem_capability <- function()
 {
   if(!capabilities("profmem"))
@@ -308,7 +324,7 @@ r_has_icu_capability <- function()
   if(as.package_version(version) < "3.1.2")
   {
     return(
-      false(not_declared_msg("ICU" , "3.1.2."))
+      na(not_declared_msg("ICU" , "3.1.2"))
     )
   }
   if(!capabilities("ICU"))
@@ -342,7 +358,7 @@ r_has_libcurl_capability <- function()
   if(as.package_version(version) < "3.2.0")
   {
     return(
-      false(not_declared_msg("libcurl" , "3.2.0."))
+      na(not_declared_msg("libcurl" , "3.2.0."))
     )
   }
   if(!capabilities("libcurl"))
@@ -360,5 +376,5 @@ no_capability_msg <- function(cap)
 
 not_declared_msg <- function(cap, vrsn)
 {
-  gettextf("%s capability is not declared for versions of R before %s.", cap)
+  gettextf("%s capability is not declared for versions of R before %s.", cap, vrsn)
 }

@@ -3,16 +3,18 @@
 \name{assert_is_comma_for_decimal_point}
 \alias{assert_is_comma_for_decimal_point}
 \alias{assert_is_period_for_decimal_point}
+\alias{is_xxx_for_decimal_point}
 \alias{is_comma_for_decimal_point}
 \alias{is_period_for_decimal_point}
-\alias{is_xxx_for_decimal_point}
 \title{What does the current locale specify for the decimal point?}
 \usage{
-assert_is_comma_for_decimal_point(severity = getOption("assertive.severity",
-  "stop"))
+assert_is_comma_for_decimal_point(
+  severity = getOption("assertive.severity", "stop")
+)
 
-assert_is_period_for_decimal_point(severity = getOption("assertive.severity",
-  "stop"))
+assert_is_period_for_decimal_point(
+  severity = getOption("assertive.severity", "stop")
+)
 
 is_xxx_for_decimal_point(dp, type = c("numbers", "money"))
 
@@ -90,4 +92,3 @@ suppressWarnings(sys_set_locale(l = current_locale))
 \seealso{
 \code{\link[base]{Sys.localeconv}}
 }
-
